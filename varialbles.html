@@ -1,0 +1,86 @@
+=============
+regular Exp
+============
+data-tab="{{ item.add_tab_heading|regex_replace("[^a-zA-Z]", "") }}
+==================
+Blog
+===================
+<div class="xt-blog-rss" style="background:{{ module.add_background_color.color }} {% if module.enable_section_bg_image %}url({{ module.add_section_bg_image.src }}){% endif %};">
+    <div class="widget-span widget-type-cell wrapper">
+      <div class="row-fluid-wrapper">
+        <div class="row-fluid">
+          <div class="blog-rss-cm">
+            {% set rec_posts = blog_recent_posts(module.choose_blog,  module.add_no_of_modules_to_show ) %}
+            <div class="section-heading">
+              <div class="base-color-text">
+                {{ module.add_section_heading }}
+              </div>
+              <div class="simple-cta">
+                <a class="cta_button" href="{{ module.add_button_url }}">{{ module.add_button_text }}</a>
+              </div>
+            </div>
+            <div class="{{ module.choose_post_column_in_a_row }}-col-adjust">
+              <span>
+                {% for post in rec_posts %}
+                <div class="single-post hs_cos_wrapper transition-effect">
+                   <a href="{{ post.absolute_url }}">
+                  <div class="post-featured-image img-sec" style="background: #1d63ff url({{ post.featured_image }});background-size:cover;background-position:center;">
+                  </div>
+                  <div class="text-section">
+                    <a href="{{ post.absolute_url }}"><h4>{{ post.name}}</h4></a>
+                    <div class="post-desc">
+                      <p>
+                        {{ post.post_list_content|safe|striptags|truncate(70,true,'...') }}  
+                      </p>
+                    </div>
+                    <div class="button-section simple-cta">
+                      <a title="Read full Article" class="cta_button" href="{{ post.absolute_url }}">{{ module.add_card_button_text }}</a>
+                    </div>
+                  </div>
+                  </a>
+                </div>
+                {% endfor %}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+=====================================
+Featured Posts  
+=====================================
+{% set topic_posts = blog_recent_topic_posts('default',  module.select_the_blog_tag , 3) %}
+<div class="xt-featured-post blog-section-updated">
+  <div class="widget-span widget-type-cell">
+    <div class="row-fluid-wrapper">
+      <div class="row-fluid">
+        <div class="section-heading base-color-text">
+          <h4>{{ module.add_section_heading }}</h4>
+        </div>
+        <div class="three-col-adjust">
+          <span>
+            {% for topic_post in topic_posts %}
+            <div class="hs_cos_wrapper single-post transition-effect">
+              <a href="{{topic_post.absolute_url}}">
+                <div class="featured-img" style="background-image: url('{{ topic_post.featured_image }}');">
+                </div>
+                <div class="text-section"><a href="{{topic_post.absolute_url}}">
+                  <h4>{{ topic_post.name }}</h4>
+                  <p>
+                    {{ topic_post.post_list_content|safe|striptags|truncate(60,true,'.') }}  
+                  </p>
+                  <div class="simple-cta">
+                    <a class="more-link cta_button" href="{{ topic_post.absolute_url }}">{{ module.add_button_text }}</a>
+                  </div>
+
+                  </a> </div>
+              </a>
+            </div>
+            {% endfor %}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
